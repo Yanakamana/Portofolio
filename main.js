@@ -50,6 +50,68 @@ export async function ambilDaftarAbsensi() {
   return hasil;
 }
 
+// ambil data untuk pembeli
+export async function ambilDaftarPembeli() {
+  const refDokumen = collection(db, "pembeli");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasil = [];
+  cuplikanKueri.forEach((dok) => {
+    hasil.push({
+      id: dok.id,
+      nama: dok.data().nama,
+      alamat: dok.data().alamat,
+      noTlpn: dok.data().noTlpn,
+    });
+  });
+
+
+
+  return hasil;
+}
+
+// ambil data untuk penjual
+export async function ambilDaftarPenjual() {
+  const refDokumen = collection(db, "penjual");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasil = [];
+  cuplikanKueri.forEach((dok) => {
+    hasil.push({
+      id: dok.id,
+      nama: dok.data().nama,
+      alamat: dok.data().alamat,
+      gmail: dok.data().gmail,
+      noTlpn: dok.data().noTlpn,
+    });
+  });
+
+
+
+  return hasil;
+}
+
+// ambil data untuk produk
+export async function ambilDaftarProduk() {
+  const refDokumen = collection(db, "produk");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasil = [];
+  cuplikanKueri.forEach((dok) => {
+    hasil.push({
+      id: dok.id,
+      nama: dok.data().nama,
+      harga: dok.data().harga,
+      stok: dok.data().stok,
+    });
+  });
+  
+  return hasil;
+}
+
 export function formatAngka(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -92,4 +154,99 @@ export async function ambilAbsensi(docId) {
   const docSnap = await getDoc(docRef);
 
   return await docSnap.data();
+}
+
+// fungsi untuk pembeli
+
+// fungsi untuk tambah data pembeli
+export async function tambahPembeli(nama, alamat, noTlpn) {
+  try {
+    const dokRef = await addDoc(collection(db, 'pembeli'), {
+      nama: nama,
+      alamat: alamat,
+      noTlpn: noTlpn
+    });
+    console.log('berhasil menembah produk ' + dokRef.id);
+  } catch (e) {
+    console.log('gagal menambah produk ' + e);
+  }
+}
+
+// fungsi untuk hapus pembeli
+export async function hapusPembeli(docId) {
+  await deleteDoc(doc(db, "pembeli", docId));
+}
+
+// fungsi untuk ubah data
+export async function ubahPembeli(docId, nama, alamat, noTlpn) {
+  await updateDoc(doc(db, "pembeli", docId), {
+    nama: nama,
+    alamat: alamat,
+    noTlpn: noTlpn
+  });
+}
+
+export async function ambilPembeli(docId) {
+  const docRef = await doc(db, "pembeli", docId);
+  const docSnap = await getDoc(docRef);
+
+  return await docSnap.data();
+}
+
+// fungsi penjual
+
+//fungsi untuk menambahkan data penjual
+export async function tambahPenjual(nama, alamat, gmail, noTlpn) {
+  try {
+    const dokRef = await addDoc(collection(db, 'penjual'), {
+      nama: nama,
+      alamat: alamat,
+      gmail: gmail,
+      noTlpn: noTlpn
+    });
+    console.log('berhasil menembah produk ' + dokRef.id);
+  } catch (e) {
+    console.log('gagal menambah produk ' + e);
+  }
+}
+//fungsi untuk hapus data penjual
+export async function hapusPenjual(docId) {
+  await deleteDoc(doc(db, "penjual", docId));
+}
+//fungsi untuk ubah data penjual
+export async function ubahPenjual(docId, nama, alamat, gmail, noTlpn) {
+  await updateDoc(doc(db, "penjual", docId), {
+    nama: nama,
+    alamat: alamat,
+    gmail: gmail,
+    noTlpn: noTlpn
+  });
+}
+//fungsi untuk ambil data dan untuk diubah
+export async function ambilPenjual(docId) {
+  const docRef = await doc(db, "penjual", docId);
+  const docSnap = await getDoc(docRef);
+
+  return await docSnap.data();
+}
+
+// fungsi produk
+
+// fungsi tambah produk
+export async function tambahProduk(nama, harga, stok) {
+  try {
+    const dokRef = await addDoc(collection(db, 'produk'), {
+      nama: nama,
+      harga: harga,
+      stok: stok
+    });
+    console.log('berhasil menembah produk ' + dokRef.id);
+  } catch (e) {
+    console.log('gagal menambah produk ' + e);
+  }
+}
+
+// fungsi hapus produk
+export async function hapusProduk(docId) {
+  await deleteDoc(doc(db, "produk", docId));
 }
