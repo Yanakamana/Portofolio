@@ -10,13 +10,11 @@
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-
 </head>
 <body class="d-flex flex-column h-100">
   <nav class="navbar navbar-expand-lg navbar-white bg-white">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">ABSENCE</a>
+      <a class="navbar-brand" href="#">Data Produk</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavWhiteDropdown" aria-controls="navbarNavWhiteDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -27,10 +25,10 @@
               Menu
             </button>
             <ul class="dropdown-menu dropdown-menu-white">
-              <li><a class="dropdown-item" href="forum-data-pembeli.html">Tambah Data Pembeli</a></li>
+              <li><a class="dropdown-item" href="form-produk.html">Tambah Data Produk</a></li>
               <li><a class="dropdown-item" href="../index.html">Data Absensi</a></li>
+              <li><a class="dropdown-item" href="../pembeli/index.html">Data Pembeli</a></li>
               <li><a class="dropdown-item" href="../penjual/index.html">Data Penjual</a></li>
-              <li><a class="dropdown-item" href="../produk/index.html">Data Produk</a></li>
             </ul>
           </li>
         </ul>
@@ -39,18 +37,16 @@
   </nav>
 
 <body>
-  <h1>Daftar Data pembeli</h1>
+  <h1>Daftar Produk</h1>
 
-
-
-  <table class="table" id="daftar-pembeli">
+  <table class="table" id="daftar-produk">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Nama pembeli</th>
-        <th scope="col">Alamat</th>
-        <th scope="col">No.Tlpn</th>
-        <th scope="col">tombol</th>
+        <th scope="col">Nama Produk</th>
+        <th scope="col">Harga</th>
+        <th scope="col">Stok</th>
+        <th scope="col">aksi</th>
       </tr>
     </thead>
     <tbody>
@@ -59,75 +55,39 @@
 
   <img src="loader.gif" style="width: 15em; display: block" id="loader">
 
-  <a href="forum-data-pembeli.html">tambah data pembeli</a>
-
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    th,
-    td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    tr:hover {
-      background-color: #f5f5f5;
-    }
-
-    .stack-up {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-  </style>
+  <a href="form-produk.html">tambah produk</a>
 
   <script type="module">
-    import { ambilDaftarPembeli, formatAngka, hapusPembeli } from './../functions.js';
+    import { ambilDaftarProduk, formatAngka, hapusProduk } from './../functions.js';
 
     $(document).ready(async function() {
-      let elemenDaftar = $("#daftar-pembeli > tbody");
-      let daftarPembeli = await ambilDaftarPembeli();
+      let elemenDaftar = $("#daftar-produk > tbody");
+      let daftarProduk = await ambilDaftarProduk();
       let nomor = 1;
 
-
-
-      daftarPembeli.forEach((data) => {
+      daftarProduk.forEach((data) => {
         elemenDaftar.append(
           '<tr>' +
           '<th>' + nomor + '</th>' +
           '<td>' + data.nama + '</td>' +
-          '<td>' + data.alamat + '</td>' +
-          '<td>' + data.noTlpn + '</td>' + '<td class="stack-up">' +
-          ' <a href="#" class="me-2 link-ubah"  data="' +
-          data.id +
-          '">ubah</a> ' 
-          + ' <button class="btn btn-danger tombol-hapus" data="' +
-          data.id +
-          '">Hapus</button>' + '</td>' +
+          '<td>' + formatAngka(data.harga) + '</td>' +
+          '<td>' + data.stok + '</td>' + '<td>' + '<button class="btn btn-danger tombol-hapus" data="' + data.id + '">Hapus</button>' +
+          '<img src="loader.gif" style="width: 1em; display: none" id="' + data.id + '">' +
+          '</td>' +
           '</tr>'
         );
         nomor = nomor + 1;
       });
 
-      $('.tombol-hapus').click(async function() {
-        await hapusPembeli($(this).attr('data'));
-        location.reload();
-      })
-
-      $('.link-ubah').click(async function() {
-        window.location.replace('ubah-produk.html?docId=' + $(this).attr('data'));
-      })
-
       $('#loader').hide();
+      
+        $('.tombol-hapus').click(async function() {
+        $(this).attr('disabled', 'disabled');
+        $('#' + $(this).attr('data')).show();
+        await hapusProduk($(this).attr('data'));
+        location.reload();
+      });
+
 
     });
   </script>
