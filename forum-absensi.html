@@ -14,7 +14,26 @@
 </head>
 
 <body class="m-3">
-  <h1>Form Absensi</h1>
+  <nav class="navbar navbar-expand-lg navbar-white bg-white">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ABSENCE</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavWhiteDropdown" aria-controls="navbarNavWhiteDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavWhiteDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <button class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Menu
+            </button>
+            <ul class="dropdown-menu dropdown-menu-white">
+              <li><a class="dropdown-item" href="index.html">Lihat Data</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <form class="mb-3">
     <div class="mb-3">
@@ -45,15 +64,13 @@
       <label class="form-label">Keterangan</label>
       <input type="text" class="form-control" id="input-keterangan">
     </div>
+    <div class="d-flex justify-content-center">
     <button type="submit" class="btn btn-primary" id="tombol-tambah">Simpan</button>
+    </div>
   </form>
 
-  <div class="d-flex justify-content-center">
-  
-  </div>
-
   <script type="module">
-    import { tambahAbsensi } from './main.js';
+    import { tambahAbsensi } from './functions.js';
 
     let tombolTambah = document.getElementById('tombol-tambah');
     let elemenTanggal = document.getElementById('input-tanggal');
@@ -70,11 +87,7 @@
       window.location.href = 'index.html'
     })
   </script>
-  <footer class="py-3 bg-dark-subtle mt-auto">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><a href="index.html" class="nav-link px-2 text-body-secondary">Beranda</a></li>
-    </ul>
-    <p class="text-center text-body-secondary">&copy; </p>
-  </footer>
 
 </body>
+
+</html>
